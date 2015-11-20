@@ -6,6 +6,7 @@
 package lab5calculator;
 
 import java.util.ArrayDeque;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -24,19 +25,85 @@ public class Lab5Calculator {
         
         Scanner consoleInput = new Scanner(System.in);
         boolean more = true;
-        
+        double currentValue;
         while(more){
-            System.out.println("Current Value"); //NOT COMPLETE
-            
-            System.out.println("Enter operation and value (i.e. \"+ 4.2\") (E[X]it, [C]lear, [D]isplay):");
-            if(!ops.isEmpty())
+            currentValue = 0;
+            if (!ops.isEmpty())
+            {
+                Iterator it = ops.iterator();
+                while (it.hasNext()){
+                    String CurrentValue = it.next().toString();
+                    char calculateop = CurrentValue.charAt(0);
+                    double calculateValue = Double.parseDouble(CurrentValue.substring(1).replaceAll("\\s",""));
+                    switch (calculateop){
+                        case '-':
+                            currentValue -= calculateValue;
+                            break;
+                        case '+':
+                            currentValue += calculateValue;
+                            break;
+                        case '*':
+                            currentValue *= calculateValue;
+                            break;
+                        case '/':
+                            currentValue /= calculateValue;
+                            break;
+                        default:
+                    }
+                }
+            }
+            System.out.printf("Current Value = %,.2f\n",currentValue); //NOT COMPLETE
+            System.out.print("Enter operation and value (i.e. \"+ 4.2\") (E[X]it, [C]lear, [D]isplay"); 
+            if(!ops.isEmpty()){
                 System.out.print(", [U]ndo");
+            }
             if (!undo.isEmpty())
                 System.out.print(", [R]edo");
-            System.out.print("):");
-            
-            char op = consoleInput.next().toLowerCase().charAt(0);
+            System.out.print("): ");
+            String inputValue = consoleInput.nextLine();
+                    //;
+            char op = inputValue.toLowerCase().charAt(0);
+            double value = 0;
+            OperationValue tempOperation;
+            if (inputValue.length() > 1){
+                value = Double.parseDouble(inputValue.substring(1).replaceAll("\\s",""));
+            }
+            switch (op)
+            {
+                case 'x': 
+                    more = false;
+                    break;
+                case 'u': 
+                    if (!ops.isEmpty()){
+                        undo.add(ops.removeLast());
+                    }
+                    else {
+                        System.err.println("Error : Invalid Entry " + op);
+                    }
+                    break;
+                case 'r':
+                    if (!undo.isEmpty()){
+                        ops.addLast(undo.pop());
+                    }
+                    else {
+                        System.err.println("Error : Invalid Entry " + op);
+                    }
+                    break;
+                case 'c':
+                    undo.clear();
+                    ops.clear();
+                    break;
+                case 'd':
+                    System.out.print("Operations = " + ops.toString() + "\n");
+                    System.out.print("UnDo List : " + undo.toString() + "\n");
+                    break;
+                case '*': case '/': case '+': case '-':
+                    tempOperation = new OperationValue(value,op);
+                    ops.add(tempOperation);
+                    break;
+                default: 
+                    System.err.println("Error : Invalid Entry " + inputValue);
+            }
         }
     }
-    
 }

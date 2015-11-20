@@ -17,15 +17,18 @@ public class OperationValue {
         this.value = value;
         this.op = op;
     }
+    
     public char getOp(){
         return op;
     }
+    
     public double getValue(){
         return value;
     }
+    
     @Override
     public String toString(){
-    return "";
+    return op+" "+value;
     }
     
 }
