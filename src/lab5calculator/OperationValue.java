@@ -1,9 +1,8 @@
 package lab5calculator;
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * I Mike Zheng, 000348657 certify that this material is my original work. No other person's work has been 
+ * used without due acknowledgment. I have not made my work available to anyone else.
  */
 
 /**
